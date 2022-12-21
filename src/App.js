@@ -1,16 +1,13 @@
 import { useState } from 'react';
+import { Counter } from './components/Counter';
+import { Input } from './components/Input';
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [text, setText] = useState('');
-
   return (
     <div className="App">
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <h1>{count}</h1>
-      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <Counter />
       <hr />
-      <input value={text} onChange={(event) => setText(event.target.value)} />
+      <Input />
     </div>
   );
 }
