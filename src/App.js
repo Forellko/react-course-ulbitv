@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import { Counter } from './components/Counter';
-import { Input } from './components/Input';
+import InputUncontrolled from './components/InputUncontrolled';
 
 function App() {
   return (
     <div className="App">
-      <Counter />
-      <hr />
-      <Input />
+      <InputUncontrolled />
     </div>
   );
 }

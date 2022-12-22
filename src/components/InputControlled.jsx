@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 /* Двустроннее связывание. Управляемый компонент. */
-export const Input = () => {
+export const InputControlled = () => {
   const [text, setText] = useState('');
 
   return (
