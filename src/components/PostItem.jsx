@@ -1,11 +1,11 @@
 import React from 'react';
-
-export default function PostItem() {
+import '../styles/PostItem.css';
+export default function PostItem({ post }) {
   return (
     <div className="post">
       <div className="post__content">
-        <strong>1. Javascript</strong>
-        <div>Javascript - Язык программирования</div>
+        <strong>{post.title}</strong>
+        <div>{post.body}</div>
       </div>
       <div className="post__buttons">
         <button>Удалить</button>
