@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useState } from 'react';
+import PostFilter from './components/PostFilter';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import MyButton from './components/UI/button/MyButton';
@@ -17,19 +18,20 @@ function App() {
     { id: 6, title: 'c', body: 'd' },
   ]);
 
-  const [search, setSearch] = useState('');
-  const [selectedSort, setSelectedSort] = useState('');
+  const [filter, setFilter] = useState({ sort: '', query: '' });
 
   const sortedPosts = useMemo(() => {
-    if (!selectedSort) return posts;
+    if (!filter.sort) return posts;
     return [...posts].sort((a, b) =>
-      a[selectedSort].localeCompare(b[selectedSort])
+      a[filter.sort].localeCompare(b[filter.sort])
     );
-  }, [selectedSort, posts]);
+  }, [filter.sort, posts]);
 
   const sortedAndSearchedPosts = useMemo(() => {
-    return sortedPosts.filter((post) => post.title.includes(search));
-  }, [search, sortedPosts]);
+    return sortedPosts.filter((post) =>
+      post.title.toLowerCase().includes(filter.query.toLowerCase())
+    );
+  }, [filter.query, sortedPosts]);
 
   const createPost = (post) => {
     setPosts([...posts, post]);
@@ -39,37 +41,16 @@ function App() {
     setPosts(posts.filter((post) => post.id !== id));
   };
 
-  const sortChange = (value) => {
-    setSelectedSort(value);
-  };
-
   return (
     <div className="App">
       <PostForm create={createPost} />
       <hr style={{ margin: '15px 0' }} />
-      <div>
-        <MyInput
-          placeholder={'Поиск...'}
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-        />
-        <MySelect
-          value={selectedSort}
-          defaultValue={'Сортировка по'}
-          options={[
-            { value: 'title', name: 'По названию' },
-            { value: 'body', name: 'По описанию' },
-          ]}
-          onChange={sortChange}
-        />
-        <PostList
-          posts={sortedAndSearchedPosts}
-          title="JavaScript"
-          deletePost={deletePost}
-        />
-      </div>
+      <PostFilter filter={filter} setFilter={setFilter} />
+      <PostList
+        posts={sortedAndSearchedPosts}
+        title="JavaScript"
+        deletePost={deletePost}
+      />
     </div>
   );
 }
