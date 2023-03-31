@@ -14,12 +14,42 @@ function App() {
     { id: 6, title: 'Javascript 5', body: 'Description' },
   ]);
 
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+
+  const addNewPost = (e) => {
+    e.preventDefault();
+
+    const newPost = {
+      id: Date.now(),
+      title,
+      body,
+    };
+
+    setPosts([...posts, newPost]);
+
+    setTitle('');
+    setBody('');
+  };
+
   return (
     <div className="App">
       <form>
-        <MyInput type="text" placeholder="Название поста" />
-        <MyInput type="text" placeholder="Описание поста" />
-        <MyButton>Создать пост</MyButton>
+        <MyInput
+          type="text"
+          placeholder="Название поста"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <MyInput
+          type="text"
+          placeholder="Описание поста"
+          value={body}
+          onChange={(e) => {
+            setBody(e.target.value);
+          }}
+        />
+        <MyButton onClick={addNewPost}>Создать пост</MyButton>
       </form>
       <PostList posts={posts} title="JavaScript" />
     </div>
