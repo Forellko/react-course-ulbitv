@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useState } from 'react';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
@@ -16,7 +17,19 @@ function App() {
     { id: 6, title: 'c', body: 'd' },
   ]);
 
+  const [search, setSearch] = useState('');
   const [selectedSort, setSelectedSort] = useState('');
+
+  const sortedPosts = useMemo(() => {
+    if (!selectedSort) return posts;
+    return [...posts].sort((a, b) =>
+      a[selectedSort].localeCompare(b[selectedSort])
+    );
+  }, [selectedSort, posts]);
+
+  const sortedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter((post) => post.title.includes(search));
+  }, [search, sortedPosts]);
 
   const createPost = (post) => {
     setPosts([...posts, post]);
@@ -28,23 +41,35 @@ function App() {
 
   const sortChange = (value) => {
     setSelectedSort(value);
-    setPosts([...posts].sort((a, b) => a[value].localeCompare(b[value])));
   };
 
   return (
     <div className="App">
       <PostForm create={createPost} />
       <hr style={{ margin: '15px 0' }} />
-      <MySelect
-        value={selectedSort}
-        defaultValue={'Сортировка по'}
-        options={[
-          { value: 'title', name: 'По названию' },
-          { value: 'body', name: 'По описанию' },
-        ]}
-        onChange={sortChange}
-      />
-      <PostList posts={posts} title="JavaScript" deletePost={deletePost} />
+      <div>
+        <MyInput
+          placeholder={'Поиск...'}
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <MySelect
+          value={selectedSort}
+          defaultValue={'Сортировка по'}
+          options={[
+            { value: 'title', name: 'По названию' },
+            { value: 'body', name: 'По описанию' },
+          ]}
+          onChange={sortChange}
+        />
+        <PostList
+          posts={sortedAndSearchedPosts}
+          title="JavaScript"
+          deletePost={deletePost}
+        />
+      </div>
     </div>
   );
 }
