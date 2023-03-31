@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/PostItem.css';
+import MyButton from './UI/button/MyButton';
 export default function PostItem({ post, index, deletePost }) {
   return (
     <div className="post">
@@ -8,13 +9,13 @@ export default function PostItem({ post, index, deletePost }) {
         <div>{post.body}</div>
       </div>
       <div className="post__buttons">
-        <button
+        <MyButton
           onClick={() => {
             deletePost(post.id);
           }}
         >
           Удалить
-        </button>
+        </MyButton>
       </div>
     </div>
   );
