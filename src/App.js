@@ -1,9 +1,9 @@
-import InputUncontrolled from './components/InputUncontrolled';
+import PostItem from './components/PostItem';
 
 function App() {
   return (
     <div>
-      <InputUncontrolled />
+      <PostItem />
     </div>
   );
 }
