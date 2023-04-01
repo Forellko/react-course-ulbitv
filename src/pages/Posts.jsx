@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { useEffect } from 'react';
-import { useMemo } from 'react';
 import { useState } from 'react';
 import PostService from '../API/PostService';
 import PostFilter from '../components/PostFilter';

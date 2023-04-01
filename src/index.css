@@ -18,6 +18,19 @@
   margin-right: 0.5rem;
 }
 
+.post {
+  display: flex;
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post__btns {
+  display: flex;
+}
+
 .post-enter {
   transform: translateX(-350px);
 }
