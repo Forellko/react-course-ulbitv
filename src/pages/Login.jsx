@@ -10,6 +10,7 @@ export default function Login() {
   const submit = (e) => {
     e.preventDefault();
     setIsAuth(true);
+    localStorage.setItem('auth', 'true');
   };
 
   return (
