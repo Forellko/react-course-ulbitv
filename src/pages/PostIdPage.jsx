@@ -9,20 +9,25 @@ import { useFetching } from '../hooks/useFetching';
 export default function PostIdPage() {
   const params = useParams();
   const [post, setPost] = useState({ id: 1, title: 'hello' });
+  const [comments, setComments] = useState([]);
 
   const [fetchPostById, isLoading, error] = useFetching(async (id) => {
-    console.log(id);
     const response = await PostService.getById(id);
-    console.log(response.data);
     setPost(response.data);
+  });
+
+  const [fetchComment, isComLoading, comError] = useFetching(async (id) => {
+    const response = await PostService.getCommentsByPostId(id);
+    setComments(response.data);
   });
 
   useEffect(() => {
     fetchPostById(params.id);
+    fetchComment(params.id);
   }, []);
 
   return (
-    <div>
+    <div style={{ margin: '0 200px' }}>
       <h1>Post {params.id}</h1>
       {isLoading ? (
         <Loader />
@@ -30,6 +35,19 @@ export default function PostIdPage() {
         <div>
           {post.id}
           {post.title}
+        </div>
+      )}
+      <h1>Комментарии</h1>
+      {isComLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          {comments.map((comm) => (
+            <div style={{ marginTop: 15 }}>
+              <h5>{comm.email}</h5>
+              <div>{comm.body}</div>
+            </div>
+          ))}
         </div>
       )}
     </div>
